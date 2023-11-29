@@ -14,8 +14,6 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import deadLock.DeadlockGeneration;
-
 public class UIFrame extends JFrame {
     private Boolean hasDeadLock = false;
     private int threadNumber = 0;
@@ -48,7 +46,7 @@ public class UIFrame extends JFrame {
         //Button
         //add the jconsoleButton | click --> Jump to the jconsole page to obtain deadlock information
         JButton jconsoleButton = new JButton("Launch JConsole");
-        jconsoleButton.setBounds(310,100,200,30);
+        jconsoleButton.setBounds(200,100,300,30);
         jconsoleButton.setFont(new Font("Calibri", Font.BOLD, 20));
         jconsoleButton.addActionListener(new ActionListener() {
             @Override
@@ -56,10 +54,11 @@ public class UIFrame extends JFrame {
                 launchJConsole();
             }
         });
+        add(jconsoleButton);
 
         //add the deadlockInfoButton | click --> Detect the deadlock situation
         JButton deadlockInfoButton = new JButton("Display Deadlock Information");
-        deadlockInfoButton.setBounds(310,160,300,30);
+        deadlockInfoButton.setBounds(200,160,300,30);
         deadlockInfoButton.setFont(new Font("Calibri", Font.BOLD, 20));
         deadlockInfoButton.addActionListener(new ActionListener() {
             @Override
@@ -67,10 +66,11 @@ public class UIFrame extends JFrame {
                 DeadlockDetector.displayDeadlockInformation();
             }
         });
+        add(deadlockInfoButton);
 
-        //add the deadlockInfoButton | click --> Detect the deadlock situation
+        //add the deadlockGenerationButton | click --> Generate a DeadLock situation
         JButton deadlockGenerationButton = new JButton("Generate DeadLock Situation");
-        deadlockGenerationButton.setBounds(310,220,300,30);
+        deadlockGenerationButton.setBounds(200,220,300,30);
         deadlockGenerationButton.setFont(new Font("Calibri", Font.BOLD, 20));
         deadlockInfoButton.addActionListener(new ActionListener() {
             @Override
@@ -80,11 +80,33 @@ public class UIFrame extends JFrame {
                 hasDeadLock = DeadlockDetector.isDeadlocked();
             }
         });
-
-
-        add(jconsoleButton);
-        add(deadlockInfoButton);
         add(deadlockGenerationButton);
+
+        //add the openPageButton | click --> Jump to the banker's Algorithm Page
+        JButton openButton = new JButton("Banker's Algorithm");
+        openButton.setBounds(200,280,300,30);
+        openButton.setFont(new Font("Calibri", Font.BOLD, 20));
+        openButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BankerAlgorithmPage banker = new BankerAlgorithmPage();
+                banker.initBankerPage();
+            }
+        });
+        add(openButton);
+
+        //add the exitButton | click --> Exit the Program
+        JButton exitButton = new JButton("Exit Program");
+        exitButton.setBounds(200,340,300,30);
+        exitButton.setFont(new Font("Calibri", Font.BOLD, 20));
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        add(exitButton);
+
     }
 
     private void launchJConsole() {
@@ -99,6 +121,8 @@ public class UIFrame extends JFrame {
             JOptionPane.showMessageDialog(this, "Error launching JConsole");
         }
     }
+
+
 
 
 
