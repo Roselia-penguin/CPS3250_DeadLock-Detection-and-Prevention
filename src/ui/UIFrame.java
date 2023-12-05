@@ -44,6 +44,19 @@ public class UIFrame extends JFrame {
         setLayout(null/**new FlowLayout()*/);
 
         //Button
+        //add the DeadLock Detection Button | click --> Jump to the DeadLock Information Page
+        JButton DeadLockDetectButton = new JButton("DeadLock Detection");
+        DeadLockDetectButton.setBounds(200,40,300,30);
+        DeadLockDetectButton.setFont(new Font("Calibri", Font.BOLD, 20));
+        DeadLockDetectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DeadLockDetectPage deadlock = new DeadLockDetectPage();
+                deadlock.initDeadLockDetectPage();
+            }
+        });
+        add(DeadLockDetectButton);
+
         //add the jconsoleButton | click --> Jump to the jconsole page to obtain deadlock information
         JButton jconsoleButton = new JButton("Launch JConsole");
         jconsoleButton.setBounds(200,100,300,30);
@@ -56,44 +69,18 @@ public class UIFrame extends JFrame {
         });
         add(jconsoleButton);
 
-        //add the deadlockInfoButton | click --> Detect the deadlock situation
-        JButton deadlockInfoButton = new JButton("Display Deadlock Information");
-        deadlockInfoButton.setBounds(200,160,300,30);
-        deadlockInfoButton.setFont(new Font("Calibri", Font.BOLD, 20));
-        deadlockInfoButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                DeadlockDetector.displayDeadlockInformation();
-            }
-        });
-        add(deadlockInfoButton);
-
-        //add the deadlockGenerationButton | click --> Generate a DeadLock situation
-        JButton deadlockGenerationButton = new JButton("Generate DeadLock Situation");
-        deadlockGenerationButton.setBounds(200,220,300,30);
-        deadlockGenerationButton.setFont(new Font("Calibri", Font.BOLD, 20));
-        deadlockInfoButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                DeadlockGeneration.Generate();
-                threadNumber+=2;
-                hasDeadLock = DeadlockDetector.isDeadlocked();
-            }
-        });
-        add(deadlockGenerationButton);
-
-        //add the openPageButton | click --> Jump to the banker's Algorithm Page
-        JButton openButton = new JButton("Banker's Algorithm");
-        openButton.setBounds(200,280,300,30);
-        openButton.setFont(new Font("Calibri", Font.BOLD, 20));
-        openButton.addActionListener(new ActionListener() {
+        //add the open Page Button | click --> Jump to the banker's Algorithm Page
+        JButton openBankerButton = new JButton("Banker's Algorithm");
+        openBankerButton.setBounds(200,280,300,30);
+        openBankerButton.setFont(new Font("Calibri", Font.BOLD, 20));
+        openBankerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 BankerAlgorithmPage banker = new BankerAlgorithmPage();
                 banker.initBankerPage();
             }
         });
-        add(openButton);
+        add(openBankerButton);
 
         //add the exitButton | click --> Exit the Program
         JButton exitButton = new JButton("Exit Program");

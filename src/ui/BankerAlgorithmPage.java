@@ -10,6 +10,10 @@ import java.awt.event.MouseEvent;
  * @date 2023/11/29 22:00
  */
 public class BankerAlgorithmPage extends JFrame {
+    int Max[][];
+    int Allocation[][];
+    int needM[][];
+    int Available[][];
     int countA = 0;
     int countM = 0;
 
@@ -72,8 +76,18 @@ public class BankerAlgorithmPage extends JFrame {
     private JTextField resourceC1;
 
     public void initBankerPage() {
+
         // Create JFrame instance
         frame = new JFrame("Banker's Alogrithm");
+
+        // Set the size and layout of JFrame
+        frame.setSize(1060, 650);
+        frame.setLayout(null);//new FlowLayout()
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setResizable(false);
+        frame.setLocationRelativeTo(null);
+        frame.setFocusable(true);
 
         // Label
         jLabel1 = new JLabel("Allocation");
@@ -191,11 +205,11 @@ public class BankerAlgorithmPage extends JFrame {
         jToggleButton1 = new JToggleButton("Calculate");
         jToggleButton1.setBounds(826,97,120,35);
         jToggleButton1.setFont(new Font("Calibri", Font.BOLD, 17));
-        /** jToggleButton1.addMouseListener(new MouseAdapter() {
+        jToggleButton1.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
                 createNeedM(evt);
             }
-        }); */
+        });
         frame.add(jToggleButton1);
 
         // TextField
@@ -336,19 +350,9 @@ public class BankerAlgorithmPage extends JFrame {
         jScrollPane5.setViewportView(jTable4);
         jPanel1.add(jScrollPane5);
 
-
-        // 设置 JFrame 的大小和布局
-        frame.setSize(1060, 650);
-        frame.setLayout(null);//new FlowLayout()
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setFocusable(true);
-
     }
 
-    private void addRowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addRowMouseClicked
+    private void addRowMouseClicked(java.awt.event.MouseEvent evt) {
         // Extracting data from text fields
         String data1 = processID.getText();
         String data2 = resourceA.getText();
@@ -365,7 +369,7 @@ public class BankerAlgorithmPage extends JFrame {
 
     }
 
-    private void addRow1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addRow1MouseClicked
+    private void addRow1MouseClicked(java.awt.event.MouseEvent evt) {
         // Extracting data from text fields
         String data2 = resourceA1.getText();
         String data3 = resourceB1.getText();
@@ -377,6 +381,93 @@ public class BankerAlgorithmPage extends JFrame {
         model.addRow(row);
         countM++; //count the row in max Table
 
+    }
+
+    private void createNeedM(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createNeedM
+        // TODO add your handling code here:
+        Allocation=new int[countA][3];
+        int i = 0;
+        while(i<countA){
+            for(int j=0; j<3; j++){
+                Allocation[i][j]=Integer.parseInt(jTable1.getModel().getValueAt(i, j+1).toString());
+            }
+            i++;
+        }
+        //For Max Matrix
+        Max=new int[countM][3];
+        int k = 0;
+        while(k<countM){
+            for(int j=0; j<3; j++){
+                Max[k][j]=Integer.parseInt(jTable2.getModel().getValueAt(k, j).toString());
+                //System.out.println(jTable1.getModel().getValueAt(i, j+1));
+            }
+            k++;
+        }
+        Available=new int[1][3];
+        Available[0][0] = Integer.parseInt(avaA.getText());
+        Available[0][1] = Integer.parseInt(avaB.getText());
+        Available[0][2] = Integer.parseInt(avaC.getText());
+        needM=new int[countA][3];
+        cal_need();
+        algorithm();
+    }//GEN-LAST:event_createNeedM
+
+    public void cal_need(){
+        if(countA==countM){
+            for(int i=0;i<countA;i++){
+                for(int j=0;j<3;j++){
+                    needM[i][j]=Max[i][j]-Allocation[i][j];	//Need Matrix Calculation for Each Resources of Process
+                }
+            }
+        }
+        int i=0;
+        while(i<countA){
+            Object[] row = { needM[i][0], needM[i][1], needM[i][2] };
+            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+            model.addRow(row);
+            i++;
+        }
+    }
+
+    public boolean check(int p){
+        if(Available[0][0]<needM[p][0] || Available[0][1]<needM[p][1] || Available[0][2]<needM[p][2]){
+            return false;
+        }
+        return true;
+    }
+
+    public void algorithm(){
+        int c=0; //Count Variable
+        boolean status[]=new boolean[countA];
+        while(c<countA){
+            boolean allocated=false;
+            for(int i=0;i<countA;i++){
+                if( !status[i] && check(i)){
+                    status[i]=true;
+                    allocated=true;
+                    ansArea.append("P"+Integer.toString(i)+" Allocated\n");
+                    //ans.setText("Allocated process : "+i);
+                    for(int j=0;j<3;j++){
+                        Available[0][j]=Available[0][j]+Allocation[i][j];
+                    }
+                    c++;
+                    Object[] row = { Available[0][0], Available[0][1], Available[0][2] };
+                    DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+                    model.addRow(row);
+                }
+            }
+            if(!allocated){
+                break;
+            }
+            //if no allocation
+        }
+
+        if(c==countA){ //if all processes are allocated. i.e No Deadlock
+            ans.setText("\nSafely allocated");
+        }
+        else{ //Deadlock is Detected and can not be avoided
+            ans.setText("UnSafe");
+        }
     }
 
 }
