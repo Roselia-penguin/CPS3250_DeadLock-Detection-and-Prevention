@@ -46,7 +46,7 @@ public class UIFrame extends JFrame {
         //Button
         //add the DeadLock Detection Button | click --> Jump to the DeadLock Information Page
         JButton DeadLockDetectButton = new JButton("DeadLock Detection");
-        DeadLockDetectButton.setBounds(200,40,300,30);
+        DeadLockDetectButton.setBounds(200,100,300,30);
         DeadLockDetectButton.setFont(new Font("Calibri", Font.BOLD, 20));
         DeadLockDetectButton.addActionListener(new ActionListener() {
             @Override
@@ -57,21 +57,9 @@ public class UIFrame extends JFrame {
         });
         add(DeadLockDetectButton);
 
-        //add the jconsoleButton | click --> Jump to the jconsole page to obtain deadlock information
-        JButton jconsoleButton = new JButton("Launch JConsole");
-        jconsoleButton.setBounds(200,100,300,30);
-        jconsoleButton.setFont(new Font("Calibri", Font.BOLD, 20));
-        jconsoleButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                launchJConsole();
-            }
-        });
-        add(jconsoleButton);
-
         //add the open Page Button | click --> Jump to the banker's Algorithm Page
         JButton openBankerButton = new JButton("Banker's Algorithm");
-        openBankerButton.setBounds(200,280,300,30);
+        openBankerButton.setBounds(200,190,300,30);
         openBankerButton.setFont(new Font("Calibri", Font.BOLD, 20));
         openBankerButton.addActionListener(new ActionListener() {
             @Override
@@ -84,7 +72,7 @@ public class UIFrame extends JFrame {
 
         //add the exitButton | click --> Exit the Program
         JButton exitButton = new JButton("Exit Program");
-        exitButton.setBounds(200,340,300,30);
+        exitButton.setBounds(200,280,300,30);
         exitButton.setFont(new Font("Calibri", Font.BOLD, 20));
         exitButton.addActionListener(new ActionListener() {
             @Override
@@ -95,20 +83,6 @@ public class UIFrame extends JFrame {
         add(exitButton);
 
     }
-
-    private void launchJConsole() {
-        try {
-            String javaHome = System.getProperty("java.home");
-            String jConsolePath = javaHome + "/bin/jconsole";
-
-            ProcessBuilder processBuilder = new ProcessBuilder(jConsolePath);
-            processBuilder.start();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error launching JConsole");
-        }
-    }
-
 
 
 

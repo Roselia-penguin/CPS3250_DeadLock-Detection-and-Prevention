@@ -34,7 +34,6 @@ public class BankerAlgorithmPage extends JFrame {
     public JTable jTable4;
 
     //Label
-    private JLabel ans;
     private JLabel jLabel1;
     private JLabel jLabel2;
     private JLabel jLabel3;
@@ -53,6 +52,7 @@ public class BankerAlgorithmPage extends JFrame {
     private JLabel jLabel16;
     private JLabel jLabel17;
     private JLabel jLabel18;
+    private JLabel jLabel19;
 
     //Button
     private JButton addRow;
@@ -95,7 +95,7 @@ public class BankerAlgorithmPage extends JFrame {
         jLabel1.setFont(new Font("Tahoma", 1, 14));
         frame.add(jLabel1);
 
-        jLabel2 = new JLabel("Max matrix");
+        jLabel2 = new JLabel("Max Matrix");
         jLabel2.setBounds(528,22,100,20);
         jLabel2.setFont(new Font("Tahoma", 1, 14));
         frame.add(jLabel2);
@@ -179,6 +179,11 @@ public class BankerAlgorithmPage extends JFrame {
         jLabel18.setBounds(840,155,100,20);
         jLabel18.setFont(new Font("Tahoma", 1, 12));
         frame.add(jLabel18);
+
+        jLabel19 = new JLabel("Result");
+        jLabel19.setBounds(855,400,100,20);
+        jLabel19.setFont(new Font("Tahoma", 1, 12));
+        frame.add(jLabel19);
 
         //Button
         //add the addRow Button | click --> Add the row
@@ -264,19 +269,19 @@ public class BankerAlgorithmPage extends JFrame {
         frame.add(avaC);
 
         //TextArea
-        ansArea = new JTextArea();
-        ansArea.setColumns(20);
-        ansArea.setRows(5);
-        ansArea.setBounds(742,189,271,195);
-        ansArea.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        frame.add(ansArea);
-        
         safeSequence = new JTextArea();
         safeSequence.setColumns(20);
         safeSequence.setRows(5);
-        safeSequence.setBounds(742,424,271,165);
+        safeSequence.setBounds(742,189,271,195);
         safeSequence.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
         frame.add(safeSequence);
+
+        ansArea = new JTextArea();
+        ansArea.setColumns(20);
+        ansArea.setRows(5);
+        ansArea.setBounds(742,424,271,165);
+        ansArea.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
+        frame.add(ansArea);
 
         //Table
         jTable1 = new JTable();
@@ -359,13 +364,17 @@ public class BankerAlgorithmPage extends JFrame {
         String data3 = resourceB.getText();
         String data4 = resourceC.getText();
 
-        Object[] row = { data1, data2, data3, data4 };
+        if (data1.isEmpty() || data2.isEmpty() || data3.isEmpty() || data4.isEmpty()) {
+            ansArea.append("\n Invalid Input!\n"+"\n The input value for Allocation is incomplete.\n");
+        }
+        else{
+            Object[] row = { data1, data2, data3, data4 };
 
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        System.out.println(countA);
-        model.addRow(row);
-        countA++;//count the row in Allocation Table
-        System.out.println(countA);
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+            model.addRow(row);
+            countA++;//count the row in Allocation Table
+        }
 
     }
 
@@ -374,16 +383,22 @@ public class BankerAlgorithmPage extends JFrame {
         String data2 = resourceA1.getText();
         String data3 = resourceB1.getText();
         String data4 = resourceC1.getText();
-        Object[] row = { data2, data3, data4 };
 
-        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        if (data2.isEmpty() || data3.isEmpty() || data4.isEmpty()) {
+            ansArea.append("\n Invalid Input!\n"+"\n The input value for Max Matrix is incomplete.\n");
+        }
+        else{
+            Object[] row = { data2, data3, data4 };
 
-        model.addRow(row);
-        countM++; //count the row in max Table
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+
+            model.addRow(row);
+            countM++; //count the row in max Table
+        }
 
     }
 
-    private void createNeedM(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createNeedM
+    private void createNeedM(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
         Allocation=new int[countA][3];
         int i = 0;
@@ -403,13 +418,27 @@ public class BankerAlgorithmPage extends JFrame {
             }
             k++;
         }
-        Available=new int[1][3];
-        Available[0][0] = Integer.parseInt(avaA.getText());
-        Available[0][1] = Integer.parseInt(avaB.getText());
-        Available[0][2] = Integer.parseInt(avaC.getText());
-        needM=new int[countA][3];
-        cal_need();
-        algorithm();
+
+        String data2 = avaA.getText();
+        String data3 = avaB.getText();
+        String data4 = avaC.getText();
+        if (data2.isEmpty() || data3.isEmpty() || data4.isEmpty()) {
+            ansArea.append("\n Invalid Input!\n"+"\n The input value for Available is incomplete.\n");
+        }
+        else{
+            Available=new int[1][3];
+            Available[0][0] = Integer.parseInt(avaA.getText());
+            Available[0][1] = Integer.parseInt(avaB.getText());
+            Available[0][2] = Integer.parseInt(avaC.getText());
+            needM=new int[countA][3];
+            if(countA==countM){
+                cal_need();
+                algorithm();
+            }
+            else{
+                ansArea.append("\n Invalid Input!\n"+"\n ALLOCATION and MAX should have\n"+" the same number of rows.\n");
+            }
+        }
     }//GEN-LAST:event_createNeedM
 
     public void cal_need(){
@@ -445,7 +474,7 @@ public class BankerAlgorithmPage extends JFrame {
                 if( !status[i] && check(i)){
                     status[i]=true;
                     allocated=true;
-                    ansArea.append("P"+Integer.toString(i)+" Allocated\n");
+                    safeSequence.append("P"+Integer.toString(i)+" Allocated\n");
                     //ans.setText("Allocated process : "+i);
                     for(int j=0;j<3;j++){
                         Available[0][j]=Available[0][j]+Allocation[i][j];
@@ -463,10 +492,10 @@ public class BankerAlgorithmPage extends JFrame {
         }
 
         if(c==countA){ //if all processes are allocated. i.e No Deadlock
-            ans.setText("\nSafely allocated");
+            ansArea.append("\n Safely Allocated!\n");
         }
         else{ //Deadlock is Detected and can not be avoided
-            ans.setText("UnSafe");
+            ansArea.append("\n UnSafe\n");
         }
     }
 
