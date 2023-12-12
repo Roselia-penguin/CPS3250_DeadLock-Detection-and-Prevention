@@ -4,9 +4,9 @@
  */
 import ui.UIFrame;
 
-import javax.swing.*;
-
 public class Project {
+
+    //The whole UI frame of our program
     public static void main(String[] args) {
         UIFrame UIFrame = new UIFrame();
         UIFrame.init();

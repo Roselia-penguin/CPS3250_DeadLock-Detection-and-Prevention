@@ -33,7 +33,8 @@ public class DeadlockDetector {
             }
         } else {
             //System.out.println("No deadlock detected.");
-            resultString = ("No deadlock detected.");
+            resultString = ("\nNo deadlock detected.");
+            DeadLockDetectPage.resultArea.append(DeadlockDetector.resultString);
         }
         System.out.println(resultString);
     }

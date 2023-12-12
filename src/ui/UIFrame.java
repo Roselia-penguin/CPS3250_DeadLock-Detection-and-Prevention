@@ -4,13 +4,10 @@
  */
 package ui;
 
-import deadLock.DeadlockDetector;
-import deadLock.DeadlockGeneration;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.awt.Color;
 
 import javax.swing.*;
 
@@ -48,6 +45,8 @@ public class UIFrame extends JFrame {
         JButton DeadLockDetectButton = new JButton("DeadLock Detection");
         DeadLockDetectButton.setBounds(200,100,300,30);
         DeadLockDetectButton.setFont(new Font("Calibri", Font.BOLD, 20));
+        //DeadLockDetectButton.setBackground(Color.decode("#5E95FF"));
+
         DeadLockDetectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
