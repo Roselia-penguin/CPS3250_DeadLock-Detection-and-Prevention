@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-
 /**
  * @author HuangYawen
  * @date 2023/12/5 20:48
@@ -22,6 +21,7 @@ public class DeadLockDetectPage extends JFrame{
     //Frame
     private JFrame frame;
 
+    private JLabel deadLock;
     public static JTextArea resultArea;
 
     public void initDeadLockDetectPage() {
@@ -37,6 +37,13 @@ public class DeadLockDetectPage extends JFrame{
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
 
+        //Text
+        deadLock = new JLabel();
+        deadLock = new JLabel("DeadLock Detection");
+        deadLock.setBounds(200,50,300,30);
+        deadLock.setFont(new Font("Tahoma", 1, 24));
+        frame.add(deadLock);
+
         //TextArea
         resultArea = new JTextArea();
         resultArea.setColumns(20);
@@ -45,6 +52,15 @@ public class DeadLockDetectPage extends JFrame{
         resultArea.setBorder(BorderFactory.createLineBorder(new Color(0,0,0)));
         //resultArea.setText(DeadlockDetector.resultString);
         frame.add(resultArea);
+
+        //ScrollPane
+        JScrollPane scrollPane = new JScrollPane();
+        // Set the JTextArea as the viewport view of the JScrollPane
+        scrollPane.setViewportView(resultArea);
+        scrollPane.setBounds(75,250,500,200);
+
+        // Add the JScrollPane to the frame
+        frame.add(scrollPane);
 
         //add the deadlockGenerationButton | click --> Generate a DeadLock situation
         JButton deadlockGenerationButton = new JButton("Generate DeadLock Situation");
@@ -88,13 +104,17 @@ public class DeadLockDetectPage extends JFrame{
 
     private void launchJConsole() {
         try {
+            // Get the path to the Java home directory and construct the path to JConsole
             String javaHome = System.getProperty("java.home");
             String jConsolePath = javaHome + "/bin/jconsole";
 
+            // Start the JConsole Process
             ProcessBuilder processBuilder = new ProcessBuilder(jConsolePath);
             processBuilder.start();
+
         } catch (IOException ex) {
             ex.printStackTrace();
+            // Display an error message using JOptionPane if launching JConsole fails
             JOptionPane.showMessageDialog(this, "Error launching JConsole");
         }
     }
