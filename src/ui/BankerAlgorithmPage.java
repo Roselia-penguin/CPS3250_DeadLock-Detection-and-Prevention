@@ -375,6 +375,7 @@ public class BankerAlgorithmPage extends JFrame {
 
     }
 
+    //clear all the data (no need to restart the program to start a new Banker's Page)
     private void clear(){
         avaA.setText("");
         avaB.setText("");
@@ -446,6 +447,7 @@ public class BankerAlgorithmPage extends JFrame {
 
     }
 
+    //Add row for the Max Matrix Table
     private void addRow1MouseClicked(MouseEvent evt) {
         // Extracting data from text fields
         String data2 = resourceA1.getText();
@@ -465,6 +467,7 @@ public class BankerAlgorithmPage extends JFrame {
 
     }
 
+    //create the need table
     private void createNeedM(MouseEvent evt) {
 
         Allocation=new int[countA][3];
@@ -492,6 +495,7 @@ public class BankerAlgorithmPage extends JFrame {
         String data3 = resourceB.getText();
         String data4 = resourceC.getText();
 
+        //if any input is empty --> showMessageDialog
         if (data1.isEmpty() || data2.isEmpty() || data3.isEmpty() || data4.isEmpty()) {
             //ansArea.append("\n Invalid Input!\n"+"\n The input value for Allocation is incomplete.\n");
             JOptionPane.showMessageDialog(frame, "Invalid Input!\nThe input value for Allocation is incomplete!");
@@ -502,6 +506,7 @@ public class BankerAlgorithmPage extends JFrame {
         String data6 = resourceB1.getText();
         String data7 = resourceC1.getText();
 
+        //if any input is empty --> showMessageDialog
         if (data5.isEmpty() || data6.isEmpty() || data7.isEmpty()) {
             //ansArea.append("\n Invalid Input!\n"+"\n The input value for Max Matrix is incomplete.\n");
             JOptionPane.showMessageDialog(frame, "Invalid Input!\nThe input value for Max Matrix is incomplete!");
@@ -510,6 +515,8 @@ public class BankerAlgorithmPage extends JFrame {
         String data8 = avaA.getText();
         String data9 = avaB.getText();
         String data10 = avaC.getText();
+
+        //if any input is empty --> showMessageDialog
         if (data8.isEmpty() || data9.isEmpty() || data10.isEmpty()) {
             //ansArea.append("\n Invalid Input!\n"+"\n The input value for Available is incomplete.\n");
             JOptionPane.showMessageDialog(frame, "Invalid Input!\nThe input value for Available is incomplete.");
@@ -522,6 +529,13 @@ public class BankerAlgorithmPage extends JFrame {
             Available[0][2] = Integer.parseInt(avaC.getText());
             needM=new int[countA][3];
             if(countA==countM && countA!=0&&countM!=0){
+                for(int i1=0;i1<countA;i1++){
+                    if(checkMax(i1)==false){
+                        JOptionPane.showMessageDialog(frame, "Invalid Input!\nMAX is smaller than ALLOCATION");
+                        clear();
+                        return;
+                    }
+                }
                 cal_need();
                 algorithm();
             }
@@ -532,12 +546,13 @@ public class BankerAlgorithmPage extends JFrame {
         }
     }
 
-
+    //calculate the need
     public void cal_need(){
         if(countA==countM && countA!=0 && countM!=0){
+            // Calculate the Need Matrix for each resource of each process
             for(int i=0;i<countA;i++){
                 for(int j=0;j<3;j++){
-                    needM[i][j]=Max[i][j]-Allocation[i][j];	//Need Matrix Calculation for Each Resources of Process
+                    needM[i][j]=Max[i][j]-Allocation[i][j];
                 }
             }
         }
@@ -551,10 +566,19 @@ public class BankerAlgorithmPage extends JFrame {
     }
 
     public boolean check(int p){
+        // Check if the available resources are sufficient for the needs of the process
         if(Available[0][0]<needM[p][0] || Available[0][1]<needM[p][1] || Available[0][2]<needM[p][2]){
-            return false;
+            return false;// Insufficient resources, cannot allocate
         }
-        return true;
+        return true;// Resources are sufficient, allocation is possible
+    }
+
+    public boolean checkMax(int p){
+        // Check if the max resources are bigger than allocation
+        if(Max[0][0]<Allocation[p][0] || Max[0][1]<Allocation[p][1] || Max[0][2]<Allocation[p][2]){
+            return false;// Insufficient resources, cannot allocate
+        }
+        return true;// Resources are sufficient, allocation is possible
     }
 
     public void algorithm(){
@@ -567,28 +591,33 @@ public class BankerAlgorithmPage extends JFrame {
                     status[i]=true;
                     allocated=true;
                     safeSequence.append("P"+Integer.toString(i)+" Allocated\n");
-                    //ans.setText("Allocated process : "+i);
+
+                    // Update the available resources after allocation
                     for(int j=0;j<3;j++){
                         Available[0][j]=Available[0][j]+Allocation[i][j];
                     }
-                    c++;
+                    c++;// Increment the count of allocated processes
                     row4 = new Object[]{Available[0][0], Available[0][1], Available[0][2]};
                     DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
                     model.addRow(row4);
                 }
             }
+            //if no allocation
             if(!allocated){
                 break;
             }
-            //if no allocation
         }
 
+        // Check if all processes are allocated, and there is no deadlock
         if(c==countA && c!=0 && countA!= 0){ //if all processes are allocated. i.e No Deadlock
             ansArea.append("\n Safely Allocated!\n");
         }
         else{ //Deadlock is Detected and can not be avoided
             ansArea.append("\n UnSafe\n");
         }
+
     }
+
+
 
 }
