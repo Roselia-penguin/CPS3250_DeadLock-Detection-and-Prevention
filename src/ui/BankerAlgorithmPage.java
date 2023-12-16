@@ -308,7 +308,7 @@ public class BankerAlgorithmPage extends JFrame {
 
                 },
                 new String [] {
-                        "Process", "A", "B", "C"
+                        "Process", "Resource1", "Resource2", "Resource3"
                 }
         ));
 
@@ -318,7 +318,7 @@ public class BankerAlgorithmPage extends JFrame {
 
                 },
                 new String [] {
-                        "A", "B", "C"
+                        "Resource1", "Resource2", "Resource3"
                 }
         ));
 
@@ -328,7 +328,7 @@ public class BankerAlgorithmPage extends JFrame {
 
                 },
                 new String [] {
-                        "A", "B", "C"
+                        "Resource1", "Resource2", "Resource3"
                 }
         ));
 
@@ -338,7 +338,7 @@ public class BankerAlgorithmPage extends JFrame {
 
                 },
                 new String [] {
-                        "A", "B", "C"
+                        "Resource1", "Resource2", "Resource3"
                 }
         ));
 
