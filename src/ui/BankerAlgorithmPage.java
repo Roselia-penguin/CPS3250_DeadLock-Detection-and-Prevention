@@ -225,7 +225,7 @@ public class BankerAlgorithmPage extends JFrame {
                 if(calculateNum == 1){
                     createNeedM(evt);
                 }else{
-                    JOptionPane.showMessageDialog(frame, "Pla");
+                    JOptionPane.showMessageDialog(frame, "The result has been calculated.\nPlease clear the data and enter new data to calculate!");
                 }
             }
         });
