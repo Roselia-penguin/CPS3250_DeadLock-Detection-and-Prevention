@@ -17,6 +17,8 @@ public class BankerAlgorithmPage extends JFrame {
     int countA = 0;//count the row in Allocation Table
     int countM = 0;//count the row in Max Table
 
+    int calculateNum = 0;//count the click times
+
     Object[] row1;
     Object[] row2;
     Object[] row3;
@@ -219,14 +221,19 @@ public class BankerAlgorithmPage extends JFrame {
         calculate.setFont(new Font("Calibri", Font.BOLD, 17));
         calculate.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
-                createNeedM(evt);
+                calculateNum++;
+                if(calculateNum == 1){
+                    createNeedM(evt);
+                }else{
+                    JOptionPane.showMessageDialog(frame, "Pla");
+                }
             }
         });
         frame.add(calculate);
 
         //add the clear Button | click --> Clear all the input
         clear = new JButton("Clear");
-        clear.setBounds(800,555,140,35);
+        clear.setBounds(810,555,140,35);
         clear.setFont(new Font("Calibri", Font.BOLD, 17));
         clear.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent evt) {
@@ -377,6 +384,7 @@ public class BankerAlgorithmPage extends JFrame {
 
     //clear all the data (no need to restart the program to start a new Banker's Page)
     private void clear(){
+
         avaA.setText("");
         avaB.setText("");
         avaC.setText("");
@@ -413,8 +421,11 @@ public class BankerAlgorithmPage extends JFrame {
             }
         }
 
+        //reset the click number
+        calculateNum++;
+
         countA = 0;//count the row in Allocation Table
-        countM = 0;//
+        countM = 0;//count the row in Max Table
 
         DefaultTableModel model1 = (DefaultTableModel) jTable1.getModel();
         model1.setRowCount(0); // Set the row count to 0 to remove all rows
