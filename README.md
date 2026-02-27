@@ -13,14 +13,18 @@ About the `DeadLock Detection and Prevention`<br>
 
 Normal Situation:
 <img width="601" height="607" alt="image" src="https://github.com/user-attachments/assets/6298abae-9b96-4751-aa29-24e882c5aa20" />
+
 DeadLock Situation:
 <img width="524" height="529" alt="image" src="https://github.com/user-attachments/assets/75adba3f-8a67-4de7-9258-617d0bd495ec" />
 
 Banker's Algorithm GUI：
 <img width="674" height="415" alt="image" src="https://github.com/user-attachments/assets/3ba15709-b059-4bf0-9584-aeebcfd57f23" />
+
 When input is correct:
+
 Safely allocated:
 <img width="655" height="401" alt="image" src="https://github.com/user-attachments/assets/f884285f-2e4f-41d7-9dfc-2fdea74526d4" />
+
 UnSafe:
 <img width="667" height="409" alt="image" src="https://github.com/user-attachments/assets/3d69f8cd-02fc-4b39-9f41-33c9eeda48b0" />
 
